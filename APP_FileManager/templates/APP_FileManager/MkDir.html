@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Make Dir{% endblock %}
+
+{% block content %}
+    <div class="u">
+        <div class="u__container">
+            <div class="u__content">
+            {% include 'APP_FileManager/includes/header.html' %}
+            <div class="u-help no_scrollbar u-disable-tap-highlight" style="padding-bottom: 80px;">
+                <form class="u__fields " style="width: 100%;" method="post" enctype="multipart/form-data"
+                              action="{% url 'mkdir' %}">{% csrf_token %}
+
+                    {% if invalid %}
+                    <span class="invalid">{{ invalid }}</span>
+                    {% endif %}
+                    {% if success %}
+                    <span class="success">{{ success }}</span>
+                    {% endif %}
+
+                    <input type="text" name="name" style="max-height: 30px;"
+                           class="u__field u-text1 u-text-align-center" value=""
+                           placeholder="* DIR NAME" required>
+                    <input type="text" name="parent_dir_id" style="max-height: 30px;"
+                           class="u__field u-text1 u-text-align-center"
+                           value="{% if parent_dir_id %}{{ parent_dir_id }}{% endif %}"
+                           placeholder="* PARENT DIR ID" required>
+
+                    <input class="u-submit2 u-text2" type="submit" value="Create"
+                                   style="margin: 0 0 10px 0 !important;">
+
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}NAVIGATION{% endblock %}
+
+{% block content %}
+    <div class="u">
+        <div class="u__container">
+            <div class="u-help no_scrollbar u-disable-tap-highlight">
+                <div class="u__gfields u-text2 u-text-align-center no_word_wrap" style="grid-template: 1fr 1fr / 1fr 1fr;">
+                    <a href="{% url 'docs' %}" class="u-submit2">API docs</a>
+                    <a href="{% url 'upload' %}" class="u-submit2">Upload Files</a>
+                    <a href="{% url 'file-manager' %}" class="u-submit2">File Manager</a>
+                    <a href="{% url 'mkdir' %}" class="u-submit2">Make Dir</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

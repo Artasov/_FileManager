@@ -1,0 +1,104 @@
+.folder
+  //border: 1px solid white
+  max-height: 30px
+  display: flex
+  justify-content: space-between
+  width: 100%
+  gap: 15px
+  .folder-icon
+    //border: 1px solid red
+    max-height: 15px
+
+  .folder-del-icon
+    //border: 1px solid red
+    max-height: 16px
+    filter: invert(0.9)
+
+  .folder-name
+    //border: 1px solid red
+    max-width: 10em
+    overflow: hidden
+    color: #f0f0f0
+
+
+._pc
+  .u__fields
+    border: 2px solid #999999
+    padding: 1em
+    border-radius: 20px!important
+    max-width: 80%
+    min-width: 50%
+  .file-date
+    display: flex
+  .file
+    grid-template: 1fr / 1fr 1fr 1fr minmax(30px, 55px)
+._touch
+  .u__fields
+    border: 0
+    border-radius: 0
+    min-width: 90%
+    padding: 1em
+  .file-date
+    display: none
+  .file
+    grid-template: 1fr / 1fr 1fr minmax(30px, 55px)
+
+.file
+  width: 100%
+  //border: 1px solid white
+  max-height: 30px
+  display: grid
+  .file-name
+    //border: 1px solid red
+    display: block
+    max-width: 100%
+    overflow: hidden
+    padding-right: 10px
+    color: #f0f0f0
+    text-align: left
+  .file-info-color
+    //border: 1px solid red
+    color: #aaaaaa
+  .file-controls
+    //border: 1px solid red
+    display: flex
+    justify-content: space-between
+    padding: 5px
+    gap: 10px
+    .file-btn-download
+      max-height: 16px
+      filter: invert(0.8)
+    .file-btn-del
+      max-height: 16px
+      filter: invert(0.8)
+
+.controls
+  //border: 1px solid red
+  display: flex
+  justify-content: start
+  gap: 10px
+  padding: 0.6em 0.6em 2em 0.6em
+  a
+    max-height: inherit
+    padding: 0.6em
+    border-radius: 10px
+
+.del_confirm-wrap
+  display: block
+  position: fixed
+  width: 100vw
+  height: 100vh
+  left: -100vw
+  top: 0
+  background: rgba(0,0,0,0)
+  transition: all 200ms ease
+  .del-confirm
+    background: rgb(20,20,20)
+    min-width: 300px
+    min-height: 200px
+    border-radius: 15px
+    padding: 1em
+    gap: 30px
+    display: flex
+    flex-direction: column
+    justify-content: center

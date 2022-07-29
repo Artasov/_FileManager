@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load APP_FileManager_tags %}
+
+{% block title %}FILE MANAGER{% endblock %}
+
+{% block link_content_css %}
+    <link href="{% static 'APP_FileManager/css/filemanager.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+<div class="u">
+<div class="u__container">
+<div class="u__content">
+{% include 'APP_FileManager/includes/header.html' %}
+<div class="u-help u-disable-tap-highlight no_scrollbar" style="padding-bottom: 80px;">
+    <div class="controls">
+        <a class="u-submit2 u-text1" href="{% url 'mkdir-pk' parent_dir.id %}">Make Dir</a>
+        <a class="u-submit2 u-text1" href="{% url 'upload-pk' parent_dir.id %}">Upload Files</a>
+    </div>
+
+
+
+    <p class="u-text1" style="color: #AAAAAA">{% GetPathToDir parent_dir.id main_dir_id %}</p>
+    <div class="u__fields u-text-align-center no_word_wrap no_scrollbar"
+         style="
+         overflow-y: scroll;
+         max-height: 100%;
+         gap:5px;">
+
+        {% if main_dir_id != parent_dir.id %}
+        <a class="folder" href="{% url 'file-manager-pk' main_dir_id %}">
+            <div class="u-flex-column-center">
+                <p class="folder-name u-text06" style="text-align: left;">.</p>
+            </div>
+        </a>
+        <a class="folder" href="{% url 'file-manager-pk' parent_dir.parent_dir.id %}" style="padding-bottom: 5px;">
+            <div class="u-flex-column-center">
+                <p class="folder-name u-text06" style="text-align: left;">..</p>
+            </div>
+        </a>
+        {% endif %}
+
+
+
+        {% for dir in dir_dirs %}
+        <div class="folder u-text06">
+            <a class="u-flex-row-space-between" style="justify-content: start; gap: 5px; width: 30%;" href="{% url 'file-manager-pk' dir.id %}">
+                <div class="u-flex-column-center">
+                    <img class="folder-icon" src="{% static 'APP_FileManager/img/folder.png' %}" alt="">
+                </div>
+                <div class="u-flex-column-center">
+                    <p class="folder-name u-text06">{{ dir.name }}</p>
+                </div>
+            </a>
+            <div class="u-flex-column-center" style="padding: 5px;">
+                <img class="folder-del-icon" onclick="raise_confirm_del('dir', '{{ dir.id }}');" src="{% static 'APP_FileManager/img/delete.png' %}" alt="">
+            </div>
+        </div>
+        {% endfor %}
+
+        {% for file in dir_files %}
+        <div class="file u-text06">
+            <div class="u-flex-column-center">
+                {% if file.extension == '.ifc' %}
+                <a href="{% url 'api-detail-ifc' file.id %}" class="file-name" style="color: #b9cef3;">
+                    {{ file.name }}{{ file.extension }}
+                </a>
+                {% else %}
+                <p class="file-name">
+                    {{ file.name }}{{ file.extension }}
+                </p>
+                {% endif %}
+            </div>
+            <div class="u-flex-column-center">
+                <p class="file-info-color">{{ file.size }}</p>
+            </div>
+            <div class="u-flex-column-center file-date">
+                <p class="file-info-color u-text04">{{ file.uploaded_at|date:'Y-m-d H:i' }}</p>
+            </div>
+            <div class="file-controls">
+                <a href="{% url 'api-download' file.id %}" style="display:block;">
+                    <img class="file-btn-download" src="{% static 'APP_FileManager/img/download.png' %}" alt="">
+                </a>
+                <img onclick="raise_confirm_del('file', '{{ file.id }}');" class="file-btn-del" src="{% static 'APP_FileManager/img/delete.png' %}" alt="">
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="del_confirm-wrap">
+            <div class="u-flex-column-center" style="height: 100%;">
+                <div class="u-flex-row-center" style="width: 100%;">
+                    <form class="del-confirm" method="post" enctype="multipart/form-data" action="{% url 'del' %}">{% csrf_token %}
+                        <p class="u-text2" style="color: #F5F5F5;">СONFIRM THE DELETION</p>
+                        <div class="u-flex-row-center" style="gap: 40px;">
+                            <input type="submit" class="u-submit u-text1" style="padding: 0.3em 0.5em; width: 70px;" value="Yes">
+                            <p onclick="close_confirm_del();" class="u-submit u-text1">No</p>
+                        </div>
+                        <input type="text" hidden name="del_type" value="" id="del_type">
+                        <input type="text" hidden name="del_id" value="" id="del_id">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+    function raise_confirm_del(del_type, del_id) {
+        document.getElementById('del_type').value = del_type;
+        document.getElementById('del_id').value = del_id;
+        document.getElementsByClassName('del_confirm-wrap')[0].style.left = '0';
+    }
+    function close_confirm_del() {
+        document.getElementsByClassName('del_confirm-wrap')[0].style.left = '-100%';
+    }
+</script>
+{% endblock %}

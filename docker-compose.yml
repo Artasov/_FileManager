@@ -1,0 +1,56 @@
+version: '3.7'
+
+services:
+  web:
+    build: ./
+    environment:
+      - DB_HOST=host.docker.internal
+      - MINIO_ENDPOINT=host.docker.internal
+      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
+      - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+      - POSTGRES_NAME=${POSTGRES_NAME}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - DJANGO_SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME}
+      - DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}
+      - DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL}
+      - NAME_MAIN_FILEMANAGER_DIR=${NAME_MAIN_FILEMANAGER_DIR}
+      - DEBUG=${DEBUG}
+    volumes:
+      - ./:/usr/src/app/
+    ports:
+      - 8000:8000
+    links:
+      - postgres
+      - minio
+    depends_on:
+      - postgres
+      - minio
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data/postgres/:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio
+    restart: always
+    ports:
+      - 9000:9000
+      - 9001:9001
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+    command: server /data --console-address :9001
+    volumes:
+      - ./data/minio/data:/data
+      - ./data/minio/config:/root/.minio
