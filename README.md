@@ -12,7 +12,7 @@
     ```
 3. Go to:
     - http://localhost:8000/ - to get started.
-    - http://localhost:8000/docs/ - API docs.
+    - http://localhost:8000/docs/ - API docs (Swagger).
     - http://localhost:8000/admin - Admin Panel
     - http://localhost:8000/file-manager/ - File Manager
     - http://localhost:8000/mkdir/ - Make Dir
