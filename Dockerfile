@@ -1,6 +1,6 @@
 FROM python:3.9
 
-ADD requirements.txt /srv/requirements.txt
+COPY requirements.txt /srv/requirements.txt
 COPY entrypoint.sh /srv/entrypoint.sh
 
 RUN apt-get update \
